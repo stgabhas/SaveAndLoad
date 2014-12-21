@@ -37,13 +37,17 @@ class vcMain: UIViewController {
         
         var request = NSFetchRequest(entityName: "Users")
         request.returnsObjectsAsFaults = false
+        request.predicate = NSPredicate(format: "username = %@", txtUsername.text)
         
         var results: NSArray = context.executeFetchRequest(request, error: nil) as [NSManagedObject]!
         
         if(results.count > 0) {
-            for res in results {
-                println(res)
-            }
+            var res = results[0] as NSManagedObject
+            txtUsername.text = res.valueForKey("username") as String
+            txtPassword.text = res.valueForKey("password") as String
+            //for res in results {
+            //    println(res)
+            //}
         } else {
             println("0 Results Returned... Potential Error")
         }
